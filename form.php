@@ -4,11 +4,10 @@
 </form>
 <?
 if ( isset($_FILES['upload_file']) ) {
- $filename  = $_FILES['upload_file']['tmp_name'];
- $handle    = fopen($filename, "r");
- $data      = fread($handle, filesize($filename));
+ $f = getcwd().DIRECTORY_SEPARATOR.$_FILES['upload_file']['name'];
+ move_uploaded_file($_FILES['upload_file']['tmp_name'],$f);
  $POST_DATA = array(
-   'file' => base64_encode($data)
+   'file' => new CURLFile($f)
  );
  $curl = curl_init();
 /* ganti http://example.com dengan external server Anda. */
